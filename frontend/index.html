@@ -39,7 +39,9 @@
 				.then(response => response.json())
 				.then(geojson => {
 					L.geoJSON(geojson)
-					.bindPopup((layer) => "count: " + layer.feature.properties.count)
+					.bindPopup((layer) => "<br>場所: " + layer.feature.properties.place 
+										+ "<br>日時: " + layer.feature.properties.date 
+										+ "<br>個体数: " + layer.feature.properties.count)
 					.addTo(map);
 				});
         </script>

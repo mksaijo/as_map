@@ -6,7 +6,8 @@ class ObservationsController < ApplicationController
         RGeo::Geographic.spherical_factory.point(obs.long, obs.lat),
         obs.id,
         count: obs.count,
-        date: obs.date
+        date: obs.date, 
+        place: obs.place
       )
     end
     feature_collection = RGeo::GeoJSON::FeatureCollection.new(features)
