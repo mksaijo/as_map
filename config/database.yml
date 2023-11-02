@@ -4,6 +4,8 @@
 #   gem install pg
 # On macOS with Homebrew:
 #   gem install pg -- --with-pg-config=/usr/local/bin/pg_config
+# On macOS with MacPorts:
+#   gem install pg -- --with-pg-config=/opt/local/lib/postgresql84/bin/pg_config
 # On Windows:
 #   gem install pg
 #       Choose the win32 build.
@@ -19,18 +21,21 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+
 development:
   <<: *default
-  database: as_map_rails_development
+  database: as_map_development
+  host: <%= ENV.fetch('DATABASE_HOST') {'localhost'} %>
+  port: <%= ENV.fetch('DATABASE_PORT') {5432} %>
 
-  # The specified database role being used to connect to PostgreSQL.
-  # To create additional roles in PostgreSQL see `$ createuser --help`.
-  # When left blank, PostgreSQL will use the default role. This is
+  # The specified database role being used to connect to postgres.
+  # To create additional roles in postgres see `$ createuser --help`.
+  # When left blank, postgres will use the default role. This is
   # the same name as the operating system user running Rails.
-  #username: as_map_rails
+  username: postgres
 
-  # The password associated with the PostgreSQL role (username).
-  #password:
+  # The password associated with the postgres role (username).
+  password: postgres
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -55,7 +60,11 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: as_map_rails_test
+  database: as_map_test
+  host: <%= ENV.fetch('DATABASE_HOST') {'localhost'} %>
+  port: <%= ENV.fetch('DATABASE_PORT') {5432} %>
+  username: postgres
+  password: postgres
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -79,6 +88,7 @@ test:
 #
 production:
   <<: *default
-  database: as_map_rails_production
-  username: as_map_rails
-  password: <%= ENV["AS_MAP_RAILS_DATABASE_PASSWORD"] %>
+  database: as_map_production
+  host: <%= ENV["DATABASE_HOST"] %>
+  username: <%= ENV["DATABASE_USERNAME"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
