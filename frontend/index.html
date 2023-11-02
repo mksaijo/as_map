@@ -7,18 +7,20 @@
             integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
             crossorigin=""
         />
+		<link rel="stylesheet" href="application.scss">
         <script
             src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
             integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
             crossorigin=""
         ></script>
+		<script src="leaflet.sprite.js"></script>
     </head>
     <body>
         <div id="map" style="height: 80vh"></div>
         <script>
             const map = L.map('map', {
-                center: [36.5, 137.1],
-                zoom: 5,
+                center: [33.653485, 130.421700],
+                zoom: 14,
             });
             const backgroundLayer = L.tileLayer(
                 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -38,7 +40,13 @@
             fetch('http://localhost:3000/observations')
 				.then(response => response.json())
 				.then(geojson => {
-					L.geoJSON(geojson)
+					L.geoJSON(geojson, {
+						pointToLayer: function (geoJsonPoint, latlng) {
+							return L.marker(latlng, {
+								icon: L.spriteIcon({color: 'red'})
+							});
+						}
+					})
 					.bindPopup((layer) => "<br>場所: " + layer.feature.properties.place 
 										+ "<br>日時: " + layer.feature.properties.date 
 										+ "<br>個体数: " + layer.feature.properties.count)

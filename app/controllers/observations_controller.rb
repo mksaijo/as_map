@@ -7,7 +7,8 @@ class ObservationsController < ApplicationController
         obs.id,
         count: obs.count,
         date: obs.date, 
-        place: obs.place
+        place: obs.place,
+        color: obs.decorate.pin_color
       )
     end
     feature_collection = RGeo::GeoJSON::FeatureCollection.new(features)
@@ -20,7 +21,8 @@ class ObservationsController < ApplicationController
       RGeo::Geographic.spherical_factory.point(ob.long, ob.lat),
       ob.id,
       count: ob.count,
-      date: ob.date
+      date: ob.date,
+      place: ob.place
     )
     render json: RGeo::GeoJSON.encode(feature)
   end
