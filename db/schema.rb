@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_02_021830) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_02_022809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "observations", force: :cascade do |t|
     t.date "date"
     t.integer "count"
-    t.integer "Long"
-    t.integer "Lat"
+    t.float "long"
+    t.float "lat"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
