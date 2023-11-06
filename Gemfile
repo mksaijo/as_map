@@ -35,6 +35,7 @@ gem 'rack-cors'
 # geojson関係
 gem "rgeo"
 gem 'rgeo-geojson'
+gem 'geocoder'
 
 # decorator
 gem 'draper'

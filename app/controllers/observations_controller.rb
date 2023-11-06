@@ -16,14 +16,29 @@ class ObservationsController < ApplicationController
   end
 
   def show
-    ob = Observation.find(params[:id])
+    observation= Observation.find(params[:id])
     feature = RGeo::GeoJSON::Feature.new(
-      RGeo::Geographic.spherical_factory.point(ob.long, ob.lat),
-      ob.id,
-      count: ob.count,
-      date: ob.date,
-      place: ob.place
+      RGeo::Geographic.spherical_factory.point(observation.long, observation.lat),
+      observation.id,
+      count: observation.count,
+      date: observation.date,
+      place: observation.place
     )
     render json: RGeo::GeoJSON.encode(feature)
   end
+
+  def new 
+    observation = Observation.new
+  end
+
+  def create
+    observation = Observation.create(observation_params)
+    render json: observation, status: :created
+  end
+
+  private 
+  def observation_params
+    params.require(:observation).permit(:long, :lat, :count, :date, :place)
+  end
+
 end
