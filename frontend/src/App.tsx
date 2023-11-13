@@ -39,17 +39,34 @@ function App() {
     function onMapClick(e: L.LeafletMouseEvent) {
       //地図のclickイベント呼び出される
       //クリック地点の座標にマーカーを追加、マーカーのclickイベントでonMarkerClick関数を呼び出し
-      alert("この地点に観察記録をつけますか?\n /observations/form");
-      var mk = L.marker(e.latlng, {icon: icon}).on('click', onMarkerClick).addTo(map);
-      console.log("click:", e.latlng)
-    }
+      //alert("この地点に観察記録をつけますか?\n /observations/form");
+      var mk = L.marker(e.latlng, {icon: icon})
+                .addTo(map);
+      var popupContent = document.createElement('div');
+      popupContent.innerHTML = `<div>この地点に観察記録をつけますか?</div>`;
     
+      var haiButton = document.createElement('button');
+      haiButton.innerText = 'はい';
+      
+      var iieButton = document.createElement('button');
+      iieButton.innerText = 'いいえ';
+      iieButton.addEventListener('click', function(event) {
+        onMarkerClick({target: mk} as L.LeafletMouseEvent);
+      });
+    
+      popupContent.appendChild(haiButton);
+      popupContent.appendChild(iieButton);
+    
+      mk.bindPopup(popupContent).openPopup();
+    }
+
     function onMarkerClick(e: L.LeafletMouseEvent) {
       //マーカーのclickイベント呼び出される
       //クリックされたマーカーを地図のレイヤから削除する
       map.removeLayer(e.target);
       console.log("remove:",e.target)
     }
+
     // GeoJSONレイヤーを作成
     fetch('http://localhost:3000/observations')
       .then(response => response.json())
