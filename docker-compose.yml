@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  postgresql:
+    image: postgres:15.3
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      TZ: "Asia/Tokyo"
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  react:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - "3001:3001"
+
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/app
+      - bundle_data:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres@postgresql:5432
+    depends_on:
+      - postgresql
+
+volumes:
+  postgres:
+  bundle_data:
