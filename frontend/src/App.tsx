@@ -3,9 +3,18 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Link } from "react-router-dom"
 import "./App.css";
+import Modal from "./Modal";
 
 function App() {
   const [latlng, setLatlng] = useState<{lat: number, lng: number}>({lat: 0, lng: 0});
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const clickButton = () => {
+    console.log("clickButton");
+    openModal();
+  }
 
   useEffect(() => {
     const map = L.map('map', {
@@ -95,6 +104,8 @@ function App() {
         pathname: "/form",
         state: {lat: latlng.lat, lng: latlng.lng}
       } as any}>観察記録をつける</Link>
+      <button className="button" onClick={() => clickButton()}>aaa</button>
+      <Modal isOpen={isModalOpen} onClose={closeModal} />
     </>
   );
   };

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "leaflet-modal": "^0.2.0"
+  }
+}
