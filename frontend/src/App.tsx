@@ -47,6 +47,9 @@ function App() {
     
       var haiButton = document.createElement('button');
       haiButton.innerText = 'はい';
+      haiButton.addEventListener('click', function(event) {
+        window.location.href = "/form";
+      });
       
       var iieButton = document.createElement('button');
       iieButton.innerText = 'いいえ';
