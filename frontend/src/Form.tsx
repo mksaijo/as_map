@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import FormProps from "./FormProps";
+import { useLocation } from "react-router-dom";
 
 const Form: React.FC<FormProps> = ({ latlng }) =>{
   const Today = new Date();
   const [date, setDate] = React.useState(Today);
-  const [lat, setLat] = useState("");
-  const [long, setLong] = useState("");
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const lat = searchParams.get("lat") || "";
+  const long = searchParams.get("long") || "";
   const [count, setCount] = useState("");
   const [place, setPlace] = useState("");
 
@@ -42,7 +45,6 @@ const Form: React.FC<FormProps> = ({ latlng }) =>{
           type="text"
           id="lat"
           value={lat}
-          onChange={(event) => setLat(event.target.value)}
         />
       </div>
       <div className="form-group">
@@ -51,7 +53,6 @@ const Form: React.FC<FormProps> = ({ latlng }) =>{
           type="text"
           id="lng"
           value={long}
-          onChange={(event) => setLong(event.target.value)}
         />
       </div>
       <div className="form-group">

@@ -48,7 +48,7 @@ function App() {
       var haiButton = document.createElement('button');
       haiButton.innerText = 'はい';
       haiButton.addEventListener('click', function(event) {
-        window.location.href = "/form";
+        window.location.href = `/form?lat=${e.latlng.lat}&long=${e.latlng.lng}`;
       });
       
       var iieButton = document.createElement('button');
@@ -88,6 +88,11 @@ function App() {
           }
         }).addTo(map);
       });
+
+      return () => {
+        map.remove(); // コンポーネントがアンマウントされる際に地図をクリーンアップ
+      };
+
     });
     
     
